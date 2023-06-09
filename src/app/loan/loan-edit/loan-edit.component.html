@@ -1,0 +1,65 @@
+<div class="container">
+    <h1 *ngIf="loan.id == null">Préstamo</h1>
+
+    <form>
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input type="text" matInput placeholder="Identificador" [(ngModel)]="loan.id" name="id" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre cliente ...</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.client" name="client_name" required>
+                <mat-option *ngFor="let client of clients" [value]="client">{{client.name}}</mat-option>
+            </mat-select>
+            <mat-error>El nombre del cliente no puede estar vacío</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre juego ...</mat-label>
+            <mat-select disableRipple [(ngModel)]="loan.game" name="game_title" required>
+                <mat-option *ngFor="let game of games" [value]="game">{{game.title}}</mat-option>
+            </mat-select>
+            <mat-error>El nombre del juego no puede estar vacío</mat-error>
+        </mat-form-field>
+
+        <br/>
+
+        <h3>Fechas de préstamo</h3>
+
+        <div class="form-fields-dates">
+            <div>
+                <mat-form-field>
+                    <mat-label>Fecha de préstamo</mat-label>
+                    <input matInput [matDatepicker]="pickerDateLoan" [(ngModel)]="loan.date_loan" name="date_loan" required>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerDateLoan"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerDateLoan></mat-datepicker>
+                    <mat-error>La fecha de préstamo no puede estar vacia</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div>
+                &nbsp;
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>Fecha de devolución</mat-label>
+                    <input matInput [matDatepicker]="pickerDateReturn" [(ngModel)]="loan.date_return" name="date_return" required>
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerDateReturn"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerDateReturn></mat-datepicker>
+                    <mat-error>La fecha de devolución no puede estar vacia</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <br/><br/>
+
+        <p style="color:red;">{{errorMessage}}</p>
+    </form>
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cancelar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
+</div>
