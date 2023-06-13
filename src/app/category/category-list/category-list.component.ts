@@ -5,6 +5,7 @@ import { CategoryService } from '../category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryEditComponent } from '../category-edit/category-edit.component';
 import { DialogConfirmationComponent } from '../../core/dialog-confirmation/dialog-confirmation.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-list',
@@ -15,7 +16,11 @@ export class CategoryListComponent implements OnInit {
   dataSource = new MatTableDataSource<Category>();
   displayedColumns: string[] = ['id', 'name', 'action'];
 
-  constructor(private categoryService: CategoryService, public dialog: MatDialog) { }
+  constructor(
+    private categoryService: CategoryService,
+    public dialog: MatDialog,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe(
@@ -52,8 +57,14 @@ export class CategoryListComponent implements OnInit {
       if (result) {
         this.categoryService.deleteCategory(category.id).subscribe(result => {
           this.ngOnInit();
-        }); 
+        });
+
+        this.showSuccess();
       }
     });
-  }  
+  }
+
+  showSuccess() {
+    this.toastr.success('¡La categoría se ha eliminado correctamente!', 'Listado de Categorías');
+  }
 }

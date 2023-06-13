@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthorService } from '../author.service';
 import { Author } from '../model/Author';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 selector: 'app-author-edit',
@@ -16,7 +17,8 @@ export class AuthorEditComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<AuthorEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private authorService: AuthorService
+        private authorService: AuthorService,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -32,6 +34,7 @@ export class AuthorEditComponent implements OnInit {
         this.authorService.saveAuthor(this.author).subscribe(
             result =>  {
                 this.dialogRef.close();
+                this.showSuccess();
             },
             error => {
                 this.errorMessage = "No se puede dar de alta al autor";
@@ -43,4 +46,7 @@ export class AuthorEditComponent implements OnInit {
         this.dialogRef.close();
     }
 
+    showSuccess() {
+        this.toastr.success('¡La operación se ha realizado correctamente!', 'Listado de Autores');
+    }
 }

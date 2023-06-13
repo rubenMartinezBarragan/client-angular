@@ -5,6 +5,7 @@ import { ClientService } from '../client.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientEditComponent } from '../client-edit/client-edit.component';
 import { DialogConfirmationComponent } from '../../core/dialog-confirmation/dialog-confirmation.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client-list',
@@ -15,7 +16,11 @@ export class ClientListComponent implements OnInit {
   dataSource = new MatTableDataSource<Client>();
   displayedColumns: string[] = ['id', 'name', 'action'];
 
-  constructor(private clientService: ClientService, public dialog: MatDialog) { }
+  constructor(
+    private clientService: ClientService,
+    public dialog: MatDialog,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.clientService.getClients().subscribe(
@@ -52,8 +57,14 @@ export class ClientListComponent implements OnInit {
       if (result) {
         this.clientService.deleteClient(client.id).subscribe(result => {
           this.ngOnInit();
-        }); 
+        });
+
+        this.showSuccess();
       }
     });
-  }  
+  }
+
+  showSuccess() {
+    this.toastr.success('¡El cliente se ha eliminado correctamente!', 'Clientes');
+  }
 }

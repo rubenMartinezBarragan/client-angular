@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CategoryService } from '../category.service';
 import { Category } from '../model/Category';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-edit',
@@ -16,7 +17,8 @@ export class CategoryEditComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CategoryEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +34,7 @@ export class CategoryEditComponent implements OnInit {
     this.categoryService.saveCategory(this.category).subscribe(
       result => {
         this.dialogRef.close();
+        this.showSuccess();
       },
       error => {
         this.errorMessage = "No se puede dar de alta la categoría";
@@ -43,4 +46,7 @@ export class CategoryEditComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  showSuccess() {
+    this.toastr.success('¡La operación se ha realizado correctamente!', 'Listado de Categorías');
+  }
 }

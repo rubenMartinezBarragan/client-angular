@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClientService } from '../client.service';
 import { Client } from '../model/Client';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-client-edit',
@@ -16,7 +17,8 @@ export class ClientEditComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ClientEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +34,7 @@ export class ClientEditComponent implements OnInit {
     this.clientService.saveClient(this.client).subscribe(
       result => {
         this.dialogRef.close();
+        this.showSuccess();
       },
       error => {
         this.errorMessage = "No se puede dar de alta al cliente";
@@ -43,4 +46,7 @@ export class ClientEditComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  showSuccess() {
+    this.toastr.success('¡La operación se ha realizado correctamente!', 'Clientes');
+  }
 }

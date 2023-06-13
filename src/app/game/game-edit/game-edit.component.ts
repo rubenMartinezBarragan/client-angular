@@ -6,6 +6,7 @@ import { CategoryService } from 'src/app/category/category.service';
 import { Category } from 'src/app/category/model/Category';
 import { GameService } from '../game.service';
 import { Game } from '../model/Game';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-game-edit',
@@ -25,6 +26,7 @@ export class GameEditComponent implements OnInit {
         private gameService: GameService,
         private categoryService: CategoryService,
         private authorService: AuthorService,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -66,6 +68,7 @@ export class GameEditComponent implements OnInit {
         this.gameService.saveGame(this.game).subscribe(
             result => {
                 this.dialogRef.close();
+                this.showSuccess();
             },
             error => {
                 this.errorMessage = "No se puede dar de alta el juego";
@@ -77,4 +80,7 @@ export class GameEditComponent implements OnInit {
         this.dialogRef.close();
     }
 
+    showSuccess() {
+        this.toastr.success('¡El nuevo juego se ha dado de alta correctamente!', 'Catálogo de juegos');
+    }
 }

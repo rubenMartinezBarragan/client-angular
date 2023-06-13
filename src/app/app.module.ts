@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { CoreModule } from './core/core.module';
 import { CategoryModule } from './category/category.module';
 import { AuthorModule } from './author/author.module';
@@ -26,7 +27,8 @@ import { SignInModule } from './sign-in/sign-in.module';
     ClientModule,
     LoanModule,
     SignInModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

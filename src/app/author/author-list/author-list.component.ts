@@ -7,6 +7,7 @@ import { Pageable } from 'src/app/core/model/page/Pageable';
 import { AuthorEditComponent } from '../author-edit/author-edit.component';
 import { AuthorService } from '../author.service';
 import { Author } from '../model/Author';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 selector: 'app-author-list',
@@ -25,6 +26,7 @@ export class AuthorListComponent implements OnInit {
     constructor(
         private authorService: AuthorService,
         public dialog: MatDialog,
+        private toastr: ToastrService
     ) { }
 
     ngOnInit(): void {
@@ -85,8 +87,14 @@ export class AuthorListComponent implements OnInit {
             if (result) {
                 this.authorService.deleteAuthor(author.id).subscribe(result =>  {
                     this.ngOnInit();
-                }); 
+                });
+
+                this.showSuccess();
             }
         });
-    }  
+    }
+
+    showSuccess() {
+        this.toastr.success('¡El autor se ha eliminado correctamente!', 'Listado de Autores');
+    }
 }

@@ -45,14 +45,14 @@
             <mat-cell *matCellDef="let element"> {{element.client.name}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="date_loan">
+        <ng-container matColumnDef="dateLoan">
             <mat-header-cell *matHeaderCellDef> Fecha de préstamo  </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.date_loan | date:'dd/MM/yyyy'}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.dateLoan | date:'dd/MM/yyyy'}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="date_return">
+        <ng-container matColumnDef="dateReturn">
             <mat-header-cell *matHeaderCellDef> Fecha de devolución  </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.date_return | date:'dd/MM/yyyy'}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.dateReturn | date:'dd/MM/yyyy'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">

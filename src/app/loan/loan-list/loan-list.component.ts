@@ -13,6 +13,7 @@ import { Client } from 'src/app/client/model/Client';
 import { LoanEditComponent } from '../loan-edit/loan-edit.component';
 import { LoanService } from '../loan.service';
 import { Loan } from '../model/Loan';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 selector: 'app-loan-list',
@@ -32,14 +33,15 @@ export class LoanListComponent implements OnInit {
     totalElements: number = 0;
 
     dataSource = new MatTableDataSource<Loan>();
-    displayedColumns: string[] = ['id', 'name_game', 'name_client', 'date_loan', 'date_return', 'action'];
+    displayedColumns: string[] = ['id', 'name_game', 'name_client', 'dateLoan', 'dateReturn', 'action'];
 
     constructor(
         private gameService: GameService,
         private clientService: ClientService,
         private loanService: LoanService,
         public dialog: MatDialog,
-        private dateAdapter: DateAdapter<Date>
+        private dateAdapter: DateAdapter<Date>,
+        private toastr: ToastrService
     )   { 
             this.dateAdapter.setLocale('es-ES');
             this.dateAdapter.getFirstDayOfWeek = () => 1;
@@ -85,7 +87,7 @@ export class LoanListComponent implements OnInit {
         this.filterClient = null;
         this.filterDateSearch = null;
 
-        this.onSearch();
+        this.loadPage();
     }
 
     onSearch(): void {
@@ -95,6 +97,7 @@ export class LoanListComponent implements OnInit {
 
         this.loanService.getLoansFilter(idGame, idClient, dateSearch).subscribe(data => {
             this.dataSource.data = data;
+            this.totalElements = data.length;
         });
     }
 
@@ -117,8 +120,14 @@ export class LoanListComponent implements OnInit {
             if (result) {
                 this.loanService.deleteLoan(loan.id).subscribe(result =>  {
                     this.ngOnInit();
-                }); 
+                });
+
+                this.showSuccess();
             }
         });
-    }  
+    }
+
+    showSuccess() {
+        this.toastr.success('¡El préstamo se ha eliminado correctamente!', 'Préstamos');
+    }
 }

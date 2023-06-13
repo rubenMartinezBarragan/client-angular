@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { throwError as observableThrowError} from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import { Pageable } from '../core/model/page/Pageable';
 import { Loan } from './model/Loan';
 import { LoanPage } from './model/LoanPage';
@@ -45,11 +45,11 @@ export class LoanService {
     }
 
     saveLoan(loan: Loan): Observable<void> {
-      let url = 'http://localhost:8080/loan';
+      let url = 'http://localhost:8080/loan/save';
       if (loan.id != null) url += '/'+loan.id;
 
       return this.http
-                  .put<void>(url, loan)
+                  .post<void>(url, loan)
                   .pipe(
                     catchError(this.errorHandler)
                   );
@@ -64,6 +64,8 @@ export class LoanService {
     }
 
     errorHandler(error: HttpErrorResponse){
+      console.log('error.message: ' + error.message);
+
       return observableThrowError(error.message);
     }
 }
