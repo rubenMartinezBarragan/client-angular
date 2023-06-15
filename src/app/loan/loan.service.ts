@@ -64,8 +64,6 @@ export class LoanService {
     }
 
     errorHandler(error: HttpErrorResponse){
-      console.log('error.message: ' + error.message);
-
       return observableThrowError(error.message);
     }
 }

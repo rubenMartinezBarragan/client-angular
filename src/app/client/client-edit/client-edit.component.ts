@@ -37,7 +37,15 @@ export class ClientEditComponent implements OnInit {
         this.showSuccess();
       },
       error => {
-        this.errorMessage = "No se puede dar de alta al cliente";
+        var errorStatus = error.substring(56, 59);
+        var messageException = "";
+
+        if (errorStatus == "405")
+            messageException = 'NO se puede dar de alta a un cliente con el mismo nombre que otro existente.';
+        else
+            messageException = 'No se puede dar de alta al cliente';
+
+        this.errorMessage = messageException;
       }
     );    
   }  

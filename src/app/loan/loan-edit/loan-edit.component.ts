@@ -70,10 +70,7 @@ export class LoanEditComponent implements OnInit {
                 this.showSuccess();
             },
             error => {
-                //this.errorMessage = "No se puede dar de alta el préstamo";
-
                 var errorStatus = error.substring(59, 62);
-                console.log('errorStatus ->' + errorStatus + '<-');
                 var messageException = "";
 
                 if (errorStatus == "401")
