@@ -86,6 +86,13 @@ export class AuthorListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.authorService.deleteAuthor(author.id).subscribe(result =>  {
+                    if (this.totalElements > 1) {
+                        this.totalElements = this.totalElements - 1;
+
+                        if (this.totalElements <= this.pageNumber*this.pageSize)
+                            this.pageNumber = this.pageNumber - 1;
+                    }
+
                     this.ngOnInit();
                 });
 

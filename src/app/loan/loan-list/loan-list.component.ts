@@ -119,6 +119,13 @@ export class LoanListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.loanService.deleteLoan(loan.id).subscribe(result =>  {
+                    if (this.totalElements > 1) {
+                        this.totalElements = this.totalElements - 1;
+
+                        if (this.totalElements <= this.pageNumber*this.pageSize)
+                            this.pageNumber = this.pageNumber - 1;
+                    }
+
                     this.ngOnInit();
                 });
 
