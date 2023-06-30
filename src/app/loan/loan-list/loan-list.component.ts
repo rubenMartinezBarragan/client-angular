@@ -95,9 +95,20 @@ export class LoanListComponent implements OnInit {
         let idClient = this.filterClient != null ? this.filterClient.id : null;
         let dateSearch = this.filterDateSearch != null ? formatDate(this.filterDateSearch, 'yyyy-MM-dd', "en-US") : null;
 
-        this.loanService.getLoansFilter(idGame, idClient, dateSearch).subscribe(data => {
-            this.dataSource.data = data;
-            this.totalElements = data.length;
+        let pageable : Pageable =  {
+            pageNumber: this.pageNumber,
+            pageSize: this.pageSize,
+            sort: [{
+                property: 'id',
+                direction: 'ASC'
+            }]
+        }
+
+        this.loanService.getLoans(pageable, idGame, idClient, dateSearch).subscribe(data => {
+            this.dataSource.data = data.content;
+            this.pageNumber = data.pageable.pageNumber;
+            this.pageSize = data.pageable.pageSize;
+            this.totalElements = data.totalElements;
         });
     }
 

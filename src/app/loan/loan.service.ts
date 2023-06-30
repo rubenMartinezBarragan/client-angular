@@ -13,12 +13,8 @@ import { LoanPage } from './model/LoanPage';
 export class LoanService {
     constructor(private http: HttpClient) { }
 
-    getLoans(pageable: Pageable): Observable<LoanPage> {
-      return this.http.post<LoanPage>('http://localhost:8080/loan', {pageable:pageable});
-    }
-
-    getLoansFilter(idGame?: Number, idClient?: Number, dateSearch?: String): Observable<Loan[]> {            
-      return this.http.get<Loan[]>(this.composeFindUrl(idGame, idClient, dateSearch));
+    getLoans(pageable: Pageable, idGame?: Number, idClient?: Number, dateSearch?: String): Observable<LoanPage> {
+      return this.http.post<LoanPage>(this.composeFindUrl(idGame, idClient, dateSearch), {pageable:pageable});
     }
 
     private composeFindUrl(idGame?: Number, idClient?: Number, dateSearch?: String) : string {
@@ -57,10 +53,6 @@ export class LoanService {
 
     deleteLoan(idLoan : number): Observable<void> {
       return this.http.delete<void>('http://localhost:8080/loan/'+idLoan);
-    }
-
-    getAllLoans(): Observable<Loan[]> {
-      return this.http.get<Loan[]>('http://localhost:8080/loan');
     }
 
     errorHandler(error: HttpErrorResponse){
